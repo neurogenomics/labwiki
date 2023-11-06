@@ -1,0 +1,18 @@
+#PBS -l walltime=72:00:00
+#PBS -l select=1:ncpus=4:mem=24gb:ngpus=1:gpu_type=RTX6000
+#PBS -J 1-3
+module load anaconda3/personal
+source activate EnformerCelltyping
+cd $PBS_O_WORKDIR
+
+#read line from txt file
+run=$(head -$PBS_ARRAY_INDEX pbs/parallel.txt | tail -1)
+#split line into two variables by '-'
+IFS=- read var1_i var2_i <<< $run
+
+#echo them just so you can see the values in the output
+echo $var1_i
+echo $var2_i
+
+#pass the variables as input to a python script
+python ./bin/gpu_script.py -i "$var1_i" -j "$var2_i"

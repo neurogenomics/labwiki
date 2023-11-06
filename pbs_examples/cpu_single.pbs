@@ -1,0 +1,7 @@
+#PBS -l walltime=72:00:00
+#PBS -l select=1:ncpus=24:mem=96gb
+module load anaconda3/personal
+source activate EnformerCelltyping
+cd $PBS_O_WORKDIR
+
+python ./bin/script.py
